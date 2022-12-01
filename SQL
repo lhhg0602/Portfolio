@@ -1,0 +1,33 @@
+-- Create Sales Table in 3 years
+select * into Sales
+from (select * from Sales_2015
+	  union (select * from Sales_2016
+			 union (select * from Sales_2017)
+			)
+	 )a
+
+
+-- Show sale data table & order by date
+
+select * 
+from Sales
+order by OrderDate
+
+
+-- Looking at number of order by productkey
+
+select Sales.ProductKey, Sales.TerritoryKey, SUM(Sales.OrderQuantity) as order_quantity
+from Sales
+group by Sales.ProductKey, Sales.TerritoryKey
+
+
+--Join return_table to get return quantity
+
+select S.OrderDate, S.StockDate, S.OrderQuantity, S.ProductKey, S.TerritoryKey, R.ReturnQuantity, R.ReturnDate
+from Returns as R
+left join Sales as S
+	on S.ProductKey = R.ProductKey
+	and S.TerritoryKey = R.TerritoryKey
+
+
+-- 
