@@ -16,7 +16,7 @@ order by OrderDate
 
 -- Looking at number of order by productkey
 
-select Sales.ProductKey, Sales.TerritoryKey, SUM(Sales.OrderQuantity) as order_quantity
+select ProductKey, TerritoryKey, SUM(OrderQuantity) as order_quantity
 from Sales
 group by Sales.ProductKey, Sales.TerritoryKey
 
@@ -30,4 +30,20 @@ left join Sales as S
 	and S.TerritoryKey = R.TerritoryKey
 
 
--- 
+--Set Primary Key
+alter table Products
+add constraint PK_Products Primary key (Productkey)
+
+
+--Set relation between Products and Sales table
+
+alter table Sales
+add constraint FK_Sales_Products foreign key (ProductKey)
+references Products (ProductKey)
+
+
+--Looking at total salez by Product Key
+
+SELECT ProductKey ,SUM(OrderQuantity) as Total_Sales 
+FROM Sales
+Group by ProductKey
