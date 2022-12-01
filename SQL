@@ -1,4 +1,5 @@
 -- Create Sales Table in 3 years
+
 select * into Sales
 from (select * from Sales_2015
 	  union (select * from Sales_2016
@@ -31,18 +32,19 @@ left join Sales as S
 
 
 --Set Primary Key
+
 alter table Products
 add constraint PK_Products Primary key (Productkey)
 
 
---Set relation between Products and Sales table
+--Set Foreign Key between Products and Sales table
 
 alter table Sales
 add constraint FK_Sales_Products foreign key (ProductKey)
 references Products (ProductKey)
 
 
---Looking at total salez by Product Key
+--Looking at total sales by Product Key
 
 SELECT ProductKey ,SUM(OrderQuantity) as Total_Sales 
 FROM Sales
